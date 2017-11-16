@@ -336,7 +336,6 @@ export class FocusZone extends BaseComponent<IFocusZoneProps, {}> implements IFo
             break;
           }
           return;
-
         case KeyCodes.up:
           if (direction !== FocusZoneDirection.horizontal && this._moveFocusUp()) {
             break;
@@ -348,6 +347,23 @@ export class FocusZone extends BaseComponent<IFocusZoneProps, {}> implements IFo
             break;
           }
           return;
+
+        case KeyCodes.tab:
+          if (direction === FocusZoneDirection.vertical) {
+            if (ev.shiftKey) {
+              this._moveFocusUp();
+            } else {
+              this._moveFocusDown();
+            }
+            break;
+          } else if (direction === FocusZoneDirection.horizontal) {
+            if (ev.shiftKey) {
+              this._moveFocusLeft();
+            } else {
+              this._moveFocusRight();
+            }
+            break;
+          }
 
         case KeyCodes.home:
           if (

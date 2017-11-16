@@ -213,7 +213,6 @@ export class ContextualMenu extends BaseComponent<IContextualMenuProps, IContext
     } = this.props;
 
     let menuClassNames = this.props.getMenuClassNames || getContextualMenuClassNames;
-    this._classNames = menuClassNames(theme!, className);
 
     let hasIcons = itemsHaveIcons(items);
 
@@ -509,7 +508,8 @@ export class ContextualMenu extends BaseComponent<IContextualMenuProps, IContext
       'aria-setsize': totalItemCount,
       'aria-disabled': item.isDisabled,
       role: item.role || defaultRole,
-      style: item.style
+      style: item.style,
+      'tabIndex': index,
     };
 
     return React.createElement(
@@ -640,7 +640,7 @@ export class ContextualMenu extends BaseComponent<IContextualMenuProps, IContext
     let submenuCloseKey = getRTL() ? KeyCodes.right : KeyCodes.left;
 
     if (ev.which === KeyCodes.escape
-      || ev.which === KeyCodes.tab
+      // || ev.which === KeyCodes.tab
       || (ev.which === submenuCloseKey && this.props.isSubMenu && this.props.arrowDirection === FocusZoneDirection.vertical)) {
       // When a user presses escape, we will try to refocus the previous focused element.
       this._isFocusingPreviousElement = true;
@@ -664,7 +664,11 @@ export class ContextualMenu extends BaseComponent<IContextualMenuProps, IContext
       return;
     }
 
-    let elementToFocus = ev.which === KeyCodes.up ?
+    if (ev.which === KeyCodes.a) {
+      ev.which = KeyCodes.up;
+    }
+
+    let elementToFocus = ev.which === KeyCodes.up || (ev.which === KeyCodes.a) ?
       getLastFocusable(this._host, (this._host.lastChild as HTMLElement), true) :
       ev.which === KeyCodes.down ?
         getFirstFocusable(this._host, (this._host.firstChild as HTMLElement), true) :
