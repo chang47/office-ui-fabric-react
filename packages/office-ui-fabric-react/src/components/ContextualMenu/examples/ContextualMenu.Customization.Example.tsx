@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { DirectionalHint, ContextualMenuItemType } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { DefaultButton, IconButton, IButton } from 'office-ui-fabric-react/lib/Button';
-import { FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
+import { FocusZoneDirection, FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import './ContextualMenuExample.scss';
+import { SwatchColorPicker } from 'office-ui-fabric-react/lib/SwatchColorPicker';
 
 export class ContextualMenuCustomizationExample extends React.Component<{}, {}> {
   public render() {
@@ -13,173 +14,17 @@ export class ContextualMenuCustomizationExample extends React.Component<{}, {}> 
         text='Click for ContextualMenu'
         menuProps={
           {
-            shouldFocusOnMount: false,
-            directionalHint: DirectionalHint.bottomLeftEdge,
+            shouldFocusOnMount: true,
             className: 'ms-ContextualMenu-customizationExample',
+            arrowDirection: FocusZoneDirection.vertical,
             items:
-            [
-              {
-                key: 'newItem',
-                name: 'New'
-              },
-              {
-                key: 'upload',
-                name: 'Upload'
-              },
-              {
-                key: 'divider_1',
-                itemType: ContextualMenuItemType.Divider
-              },
-              {
-                key: 'charm',
-                name: 'Charm',
-                className: 'Charm-List',
-                subMenuProps: {
-                  arrowDirection: FocusZoneDirection.bidirectional,
-                  items: [
-                    {
-                      key: 'none',
-                      name: 'None'
-                    },
-                    {
-                      key: 'bulb',
-                      name: 'Lightbulb',
-                      onRender: this._renderCharmMenuItem,
-                      className: 'ms-ContextualMenu-customizationExample-item'
-                    },
-                    {
-                      key: 'run',
-                      name: 'Running',
-                      onRender: this._renderCharmMenuItem,
-                      className: 'ms-ContextualMenu-customizationExample-item'
-                    },
-                    {
-                      key: 'plane',
-                      name: 'Airplane',
-                      onRender: this._renderCharmMenuItem,
-                      className: 'ms-ContextualMenu-customizationExample-item'
-                    },
-                    {
-                      key: 'page',
-                      name: 'Page',
-                      onRender: this._renderCharmMenuItem,
-                      className: 'ms-ContextualMenu-customizationExample-item'
-                    },
-                    {
-                      key: 'cake',
-                      name: 'Cake',
-                      onRender: this._renderCharmMenuItem,
-                      className: 'ms-ContextualMenu-customizationExample-item'
-                    },
-                    {
-                      key: 'soccer',
-                      name: 'Soccer',
-                      onRender: this._renderCharmMenuItem,
-                      className: 'ms-ContextualMenu-customizationExample-item'
-                    },
-                    {
-                      key: 'home',
-                      name: 'Home',
-                      onRender: this._renderCharmMenuItem,
-                      className: 'ms-ContextualMenu-customizationExample-item'
-                    },
-                    {
-                      key: 'emoji',
-                      name: 'Emoji2',
-                      onRender: this._renderCharmMenuItem,
-                      className: 'ms-ContextualMenu-customizationExample-item'
-                    },
-                    {
-                      key: 'work',
-                      name: 'Work',
-                      onRender: this._renderCharmMenuItem,
-                      className: 'ms-ContextualMenu-customizationExample-item'
-                    },
-                    {
-                      key: 'coffee',
-                      name: 'Coffee',
-                      onRender: this._renderCharmMenuItem,
-                      className: 'ms-ContextualMenu-customizationExample-item'
-                    },
-                    {
-                      key: 'people',
-                      name: 'People',
-                      onRender: this._renderCharmMenuItem,
-                      className: 'ms-ContextualMenu-customizationExample-item'
-                    },
-                    {
-                      key: 'stopwatch',
-                      name: 'Stopwatch',
-                      onRender: this._renderCharmMenuItem,
-                      className: 'ms-ContextualMenu-customizationExample-item'
-                    },
-                    {
-                      key: 'music',
-                      name: 'MusicInCollectionFill',
-                      onRender: this._renderCharmMenuItem,
-                      className: 'ms-ContextualMenu-customizationExample-item'
-                    },
-                    {
-                      key: 'lock',
-                      name: 'Lock',
-                      onRender: this._renderCharmMenuItem,
-                      className: 'ms-ContextualMenu-customizationExample-item'
-                    }
-                  ]
-                },
-              },
-              {
-                key: 'categories',
-                name: 'Categorize',
-                subMenuProps: {
-                  items: [
-                    {
-                      key: 'categories',
-                      name: 'categories',
-                      categoryList: [
-                        {
-                          name: 'Personal',
-                          color: 'yellow'
-                        },
-                        {
-                          name: 'Work',
-                          color: 'green'
-                        },
-                        {
-                          name: 'Birthday',
-                          color: 'blue'
-                        },
-                        {
-                          name: 'Spam',
-                          color: 'grey'
-                        },
-                        {
-                          name: 'Urgent',
-                          color: 'red'
-                        },
-                        {
-                          name: 'Hobbies',
-                          color: 'black'
-                        },
-                      ],
-                      onRender: this._renderCategoriesList
-                    },
-                    {
-                      key: 'divider_1',
-                      itemType: ContextualMenuItemType.Divider
-                    },
-                    {
-                      key: 'clear',
-                      name: 'Clear categories'
-                    },
-                    {
-                      key: 'manage',
-                      name: 'Manage categories'
-                    }
-                  ]
-                },
-              }
-            ]
+              [
+                {
+                  key: 'next',
+                  name: 'next',
+                  onRender: this._renderDoubleFocus
+                }
+              ]
           }
         }
 
@@ -197,6 +42,53 @@ export class ContextualMenuCustomizationExample extends React.Component<{}, {}> 
         onClick={ dismissMenu }
       />
     );
+  }
+
+  private _renderDoubleFocus(item: any) {
+    return (
+      <div>
+        <SwatchColorPicker
+          doNotContainWithinFocusZone={ false }
+          columnCount={ 5 }
+          cellShape={ 'circle' }
+          colorCells={
+            [
+              { id: 'a', label: 'green', color: '#00ff00' },
+              { id: 'b', label: 'orange', color: '#ffa500' },
+              { id: 'c', label: 'blue', color: '#0000ff' },
+              { id: 'd', label: 'red', color: '#ff0000' },
+              { id: 'e', label: 'white', color: '#ffffff' },
+              { id: 'aa', label: 'green', color: '#00ff00' },
+              { id: 'bb', label: 'orange', color: '#ffa500' },
+              { id: 'cc', label: 'blue', color: '#0000ff' },
+              { id: 'dd', label: 'red', color: '#ff0000' },
+              { id: 'ee', label: 'white', color: '#ffffff' }
+            ]
+          }
+        />
+        <SwatchColorPicker
+          doNotContainWithinFocusZone={ false }
+          columnCount={ 5 }
+          cellShape={ 'square' }
+          colorCells={
+            [
+              { id: 'f', label: 'green', color: '#00ff00' },
+              { id: 'g', label: 'orange', color: '#ffa500' },
+              { id: 'h', label: 'blue', color: '#0000ff' },
+              { id: 'i', label: 'red', color: '#ff0000' },
+              { id: 'j', label: 'white', color: '#ffffff' },
+              { id: 'ff', label: 'green', color: '#00ff00' },
+              { id: 'gg', label: 'orange', color: '#ffa500' },
+              { id: 'hh', label: 'blue', color: '#0000ff' },
+              { id: 'ii', label: 'red', color: '#ff0000' },
+              { id: 'jj', label: 'white', color: '#ffffff' }
+            ]
+          }
+        />
+        <DefaultButton />
+        <DefaultButton />
+      </div>
+    )
   }
 
   private _renderCategoriesList(item: any) {
