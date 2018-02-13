@@ -49,6 +49,7 @@ export class GridBase extends BaseComponent<IGridProps, {}> implements IGrid {
                 <tr
                   role={ 'row' }
                   key={ this._id + '-' + rowIndex + '-row' }
+                  aria-label={ this.props.rowLabel ? this.props.rowLabel.replace('{0}', rowIndex.toString()) : undefined }
                 >
                   { rows.map((cell, cellIndex) => {
                     return (

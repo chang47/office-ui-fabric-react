@@ -64,9 +64,15 @@ export interface IGridProps {
   theme?: ITheme;
 
   /**
- * Optional styles for the component.
- */
+   * Optional styles for the component.
+   */
   getStyles?: IStyleFunction<IGridStyleProps, IGridStyles>;
+
+  /**
+   * Text to be used to be used for each row in a table. Uses {0} as a placeholder to be replaced
+   * with the row index of the table. Example: "Row {0}" in row 2 would become "Row 2".
+   */
+  rowLabel?: string;
 }
 
 /**
