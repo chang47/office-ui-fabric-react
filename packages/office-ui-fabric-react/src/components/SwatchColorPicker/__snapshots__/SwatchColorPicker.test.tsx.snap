@@ -36,6 +36,7 @@ exports[`SwatchColorPicker renders SwatchColorPicker correctly 1`] = `
   >
     <tbody>
       <tr
+        aria-label={undefined}
         role="row"
       >
         <td
@@ -776,6 +777,7 @@ exports[`SwatchColorPicker renders SwatchColorPicker correctly 1`] = `
         </td>
       </tr>
       <tr
+        aria-label={undefined}
         role="row"
       >
         <td
@@ -1516,6 +1518,7 @@ exports[`SwatchColorPicker renders SwatchColorPicker correctly 1`] = `
         </td>
       </tr>
       <tr
+        aria-label={undefined}
         role="row"
       >
         <td
