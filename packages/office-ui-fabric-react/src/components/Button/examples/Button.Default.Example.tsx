@@ -24,6 +24,8 @@ export class ButtonDefaultExample extends React.Component<IButtonProps, {}> {
             disabled={ disabled }
             checked={ checked }
             text='Button'
+            aria-setsize={ 1 }
+            aria-posinset={ 1 }
           />
         </div>
         <div>

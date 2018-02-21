@@ -173,8 +173,14 @@ export class BaseButton extends BaseComponent<IBaseButtonProps, IBaseButtonState
     }
 
     if (this._isSplitButton) {
+      const splitButtonProps = getNativeProps({
+        'aria-setsize': (nativeProps as any)['aria-setsize'],
+        'aria-posinset': (nativeProps as any)['aria-posinset']
+      }, buttonProperties);
+      buttonProps['aria-setsize'] = undefined;
+      buttonProps['aria-posinset'] = undefined;
       return (
-        this._onRenderSplitButtonContent(tag, buttonProps)
+        this._onRenderSplitButtonContent(tag, buttonProps, splitButtonProps)
       );
     } else if (this.props.menuProps) {
       assign(
@@ -410,7 +416,7 @@ export class BaseButton extends BaseComponent<IBaseButtonProps, IBaseButtonState
     this.setState({ menuProps: currentMenuProps ? null : menuProps });
   }
 
-  private _onRenderSplitButtonContent(tag: any, buttonProps: IButtonProps): JSX.Element {
+  private _onRenderSplitButtonContent(tag: any, buttonProps: IButtonProps, splitButtonProps: IButtonProps): JSX.Element {
     const {
       styles = {},
       disabled,
@@ -429,6 +435,7 @@ export class BaseButton extends BaseComponent<IBaseButtonProps, IBaseButtonState
 
     return (
       <div
+        {...splitButtonProps}
         role={ 'button' }
         aria-labelledby={ buttonProps.ariaLabel }
         aria-disabled={ disabled }

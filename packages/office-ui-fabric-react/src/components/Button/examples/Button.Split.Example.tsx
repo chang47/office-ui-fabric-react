@@ -34,6 +34,8 @@ export class ButtonSplitExample extends React.Component<IButtonProps> {
             split={ true }
             splitButtonAriaLabel={ 'See 2 sample options' }
             style={ { height: '35px' } }
+            aria-posinset={ 1 }
+            aria-setsize={ 1 }
             menuProps={ {
               items: [
                 {
