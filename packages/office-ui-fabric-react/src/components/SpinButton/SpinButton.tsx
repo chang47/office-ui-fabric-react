@@ -227,6 +227,7 @@ export class SpinButton extends BaseComponent<ISpinButtonProps, ISpinButtonState
               onMouseUp={ this._stop }
               tabIndex={ -1 }
               ariaLabel={ incrementButtonAriaLabel }
+              onFocus={ this._onFocus }
             />
             <IconButton
               styles={ getArrowButtonStyles(theme!, false, customDownArrowButtonStyles) }
@@ -239,6 +240,7 @@ export class SpinButton extends BaseComponent<ISpinButtonProps, ISpinButtonState
               onMouseUp={ this._stop }
               tabIndex={ -1 }
               ariaLabel={ decrementButtonAriaLabel }
+              onFocus={ this._onFocus }
             />
           </span>
         </div>

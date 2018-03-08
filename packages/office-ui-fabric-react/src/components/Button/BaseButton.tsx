@@ -200,7 +200,9 @@ export class BaseButton extends BaseComponent<IBaseButtonProps, IBaseButtonState
   }
 
   public focus(): void {
-    if (this._buttonElement) {
+    if (this._splitButtonContainer) {
+      this._splitButtonContainer.focus();
+    } else if (this._buttonElement) {
       this._buttonElement.focus();
     }
   }
@@ -431,6 +433,14 @@ export class BaseButton extends BaseComponent<IBaseButtonProps, IBaseButtonState
         !!this.state.menuProps,
         !!checked);
 
+    assign(
+      buttonProps,
+      {
+        onFocus: this.focus,
+        tabIndex: -1
+      }
+    );
+
     return (
       <div
         role={ 'button' }
@@ -489,8 +499,7 @@ export class BaseButton extends BaseComponent<IBaseButtonProps, IBaseButtonState
       'aria-expanded': this._isExpanded
     };
 
-    return <BaseButton {...splitButtonProps} onMouseDown={ this._onMouseDown } />;
-
+    return <BaseButton {...splitButtonProps} onMouseDown={ this._onMouseDown } tabIndex={ -1 } onFocus={ this.focus } />;
   }
 
   @autobind

@@ -347,12 +347,13 @@ export class ComboBox extends BaseComponent<IComboBoxProps, IComboBoxState> {
             styles={ this._getCaretButtonStyles() }
             role='presentation'
             aria-hidden={ isButtonAriaHidden }
-            data-is-focusable={false}
+            data-is-focusable={ false }
             tabIndex={ -1 }
             onClick={ this._onComboBoxClick }
             iconProps={ buttonIconProps }
             disabled={ disabled }
             checked={ isOpen }
+            onFocus={ this._select }
           />
         </div>
 
