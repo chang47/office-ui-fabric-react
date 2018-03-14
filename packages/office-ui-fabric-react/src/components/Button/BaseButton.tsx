@@ -9,7 +9,8 @@ import {
   getId,
   getNativeProps,
   KeyCodes,
-  createRef
+  createRef,
+  divProperties
 } from '../../Utilities';
 import { Icon } from '../../Icon';
 import { DirectionalHint } from '../../common/DirectionalHint';
@@ -225,6 +226,25 @@ export class BaseButton extends BaseComponent<IBaseButtonProps, IBaseButtonState
       onRenderMenuIcon = this._onRenderMenuIcon
     } = props;
 
+    const {
+      styles = {},
+      disabled,
+      checked,
+      getSplitButtonClassNames,
+      onClick,
+      primaryDisabled
+    } = this.props;
+
+
+    const classNames = getSplitButtonClassNames ? getSplitButtonClassNames(
+      !!disabled,
+      !!this.state.menuProps,
+      !!checked) : styles && getBaseSplitButtonClassNames(
+        styles!,
+        !!disabled,
+        !!this.state.menuProps,
+        !!checked);
+
     const Content = (
       <Tag { ...buttonProps }>
         <div className={ this._classNames.flexContainer } >
@@ -234,6 +254,8 @@ export class BaseButton extends BaseComponent<IBaseButtonProps, IBaseButtonState
           { onRenderChildren(props, this._onRenderChildren) }
           { !this._isSplitButton && (menuProps || menuIconProps || this.props.onRenderMenuIcon) && onRenderMenuIcon(this.props, this._onRenderMenuIcon) }
           { this.state.menuProps && !this.state.menuProps.doNotLayer && onRenderMenu(menuProps, this._onRenderMenu) }
+          { this._isSplitButton && this._onRenderSplitButtonMenuButton(classNames) }
+          { this._isSplitButton && this._onRenderSplitButtonDivider(classNames) }
         </div>
       </Tag>
     );
@@ -246,7 +268,6 @@ export class BaseButton extends BaseComponent<IBaseButtonProps, IBaseButtonState
         </div>
       );
     }
-
     return Content;
   }
 
@@ -436,16 +457,16 @@ export class BaseButton extends BaseComponent<IBaseButtonProps, IBaseButtonState
         !!this.state.menuProps,
         !!checked);
 
-    assign(
+    /*assign(
       buttonProps,
       {
         onClick: undefined,
         tabIndex: -1,
         'data-is-focusable': false
       }
-    );
+    );*/
 
-    return (
+    /* return (
       <div
         role={ 'button' }
         aria-labelledby={ buttonProps.ariaLabel }
@@ -461,15 +482,10 @@ export class BaseButton extends BaseComponent<IBaseButtonProps, IBaseButtonState
         onClick={ !disabled && !primaryDisabled ? onClick : undefined }
         tabIndex={ 0 }
       >
-        <span
-          style={ { 'display': 'flex' } }
-        >
-          { this._onRenderContent(tag, buttonProps) }
-          { this._onRenderSplitButtonMenuButton(classNames) }
-          { this._onRenderSplitButtonDivider(classNames) }
-        </span>
+        { this._onRenderContent(tag, buttonProps) }
       </div>
-    );
+    );*/
+    return this._onRenderContent(tag, buttonProps);
   }
 
   private _onRenderSplitButtonDivider(classNames: ISplitButtonClassNames | undefined): JSX.Element | null {
@@ -504,10 +520,20 @@ export class BaseButton extends BaseComponent<IBaseButtonProps, IBaseButtonState
       'ariaLabel': splitButtonAriaLabel,
       'aria-haspopup': true,
       'aria-expanded': this._isExpanded,
-      'data-is-focusable': false
+      'data-is-focusable': false,
+      'onMouseDown': this._onMouseDown
     };
 
-    return <BaseButton {...splitButtonProps} onMouseDown={ this._onMouseDown } tabIndex={ -1 } />;
+    const nativeProps = getNativeProps(splitButtonProps, divProperties)
+
+    //return <BaseButton {...splitButtonProps} onMouseDown={ this._onMouseDown } tabIndex={ -1 } />;
+    return ( // for the style we'll need to add display: flex and justify-content: center
+      <div {...nativeProps} className={ classNames ? classNames.root : undefined } >
+        <Icon
+          { ...menuIconProps }
+          className={ this._classNames.icon }
+        />
+      </div>)
   }
 
   @autobind
