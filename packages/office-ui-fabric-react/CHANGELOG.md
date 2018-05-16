@@ -1,6 +1,34 @@
 # Change Log - office-ui-fabric-react
 
-This log was last generated on Mon, 14 May 2018 20:46:25 GMT and should not be manually modified.
+This log was last generated on Wed, 16 May 2018 00:05:17 GMT and should not be manually modified.
+
+## 5.103.0
+Wed, 16 May 2018 00:05:17 GMT
+
+### Minor changes
+
+- Buttons: Deprecate `description` prop in favor of more consistent `secondaryText` prop.
+
+### Patches
+
+- Fix markdown file paths on SwatchColorPicker docs page.
+- Finishing the rest of the Calendar style updates
+- Fix detailslist custom group header example by invoking correct onClick for select and collapse toggles.
+- Fix misuse of aria props on ProgressIndicator
+
+## 5.102.0
+Tue, 15 May 2018 07:09:49 GMT
+
+### Minor changes
+
+- Deprecate ComboBox's value prop in favor of new text prop.
+
+### Patches
+
+- Fix bug where primaryDisabled is not respected on contextual menu items
+- Dropdown: Remove aria-autocomplete and aria-readonly
+- Pivot: Slight tweak to the `PivotItem` compare to ensure it works in minified scenarios.
+- shouldVirtualize takes incoming properties
 
 ## 5.101.2
 Mon, 14 May 2018 20:46:25 GMT
