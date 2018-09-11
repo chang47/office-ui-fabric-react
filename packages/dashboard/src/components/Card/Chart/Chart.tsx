@@ -7,12 +7,12 @@ import {
   ILegendDataItem,
   LineChart,
   MultiStackedBarChart,
-  PieChart,
   StackedBarChart,
   VerticalBarChart
 } from '@uifabric/charting';
+import { mergeStyles } from 'office-ui-fabric-react/lib/Styling';
 
-export class Chart extends React.Component<IChartInternalProps, {}> {
+export class Chart extends React.Component<IChartInternalProps, { _width: number; _height: number }> {
   public static defaultProps = {
     compactChartWidth: 250
   };
@@ -21,6 +21,7 @@ export class Chart extends React.Component<IChartInternalProps, {}> {
   private _isMultiBarChart = false;
   private _colors: string[] | undefined;
   private _singleChartDataPoints: IDataPoint[] | undefined;
+  private _rootElem: HTMLElement | null;
 
   public constructor(props: IChartInternalProps) {
     super(props);
@@ -42,10 +43,32 @@ export class Chart extends React.Component<IChartInternalProps, {}> {
     if (props.legendColors && props.legendColors.length > 0) {
       this._colors = props.legendColors.map((item: ILegendDataItem) => item.legendColor);
     }
+    this.state = {
+      _width: this._getWidth(),
+      _height: this._getHeight()
+    };
+    this._getLineChart = this._getLineChart.bind(this);
+  }
+
+  public componentDidMount(): void {
+    if (this._rootElem) {
+      this.setState({
+        _width: this._rootElem!.offsetWidth,
+        _height: this._rootElem!.offsetHeight
+      });
+    }
   }
 
   public render(): JSX.Element {
-    return this._getChartByType(this.props.chartType);
+    const rootStyle = {
+      width: '100%',
+      height: '100%'
+    };
+    return (
+      <div ref={(rootElem: HTMLElement | null) => (this._rootElem = rootElem)} className={mergeStyles(rootStyle)}>
+        {this._getChartByType(this.props.chartType)}
+      </div>
+    );
   }
 
   private _getChartByType = (chartType: ChartType): JSX.Element => {
@@ -63,49 +86,16 @@ export class Chart extends React.Component<IChartInternalProps, {}> {
         );
       }
       case ChartType.LineChart: {
-        return (
-          <LineChart
-            data={this.props.data}
-            width={this._getWidth()}
-            height={this._getHeight()}
-            strokeWidth={this.props.strokeWidth}
-            chartLabel={this._chartLabel}
-            colors={this._colors}
-          />
-        );
+        return this._getLineChart();
       }
       case ChartType.HorizontalBarChart: {
-        return (
-          <HorizontalBarChart
-            data={this._singleChartDataPoints}
-            width={this._getWidth()}
-            height={this._getHeight()}
-            barHeight={this.props.barHeight}
-            chartLabel={this._chartLabel}
-            colors={this._colors}
-          />
-        );
+        return <HorizontalBarChart data={this.props.chartData!} barHeight={this.props.barHeight} />;
       }
       case ChartType.DonutChart: {
-        return (
-          <DonutChart
-            data={this._singleChartDataPoints}
-            colors={this._colors}
-            width={this._getWidth()}
-            height={this._getHeight()}
-          />
-        );
+        return <DonutChart data={this.props.chartData![0]} innerRadius={40} />;
       }
       case ChartType.PieChart: {
-        return (
-          <PieChart
-            data={this._singleChartDataPoints}
-            chartTitle={this._chartLabel}
-            colors={this._colors}
-            width={this._getWidth()}
-            height={this._getHeight()}
-          />
-        );
+        return <DonutChart data={this.props.chartData![0]} innerRadius={0} />;
       }
       case ChartType.StackedBarChart: {
         return this._getStackedBarChart();
@@ -147,5 +137,18 @@ export class Chart extends React.Component<IChartInternalProps, {}> {
     }
 
     return <StackedBarChart data={this.props.chartData![0]} barHeight={this.props.barHeight} />;
+  };
+
+  private _getLineChart = (): JSX.Element => {
+    return (
+      <div className={mergeStyles({ width: this.state._width, height: this.state._height })}>
+        <LineChart
+          data={this.props.chartData![0]}
+          strokeWidth={this.props.strokeWidth}
+          width={this._getWidth()}
+          height={this._getHeight()}
+        />
+      </div>
+    );
   };
 }

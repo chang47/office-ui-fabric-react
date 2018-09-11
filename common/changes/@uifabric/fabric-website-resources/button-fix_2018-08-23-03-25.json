@@ -1,9 +1,9 @@
 {
   "changes": [
     {
-      "comment": "",
       "packageName": "@uifabric/fabric-website-resources",
-      "type": "none"
+      "comment": "IE11 Promise polyfill was missing and broke `npm start`. Added polyfill.",
+      "type": "minor"
     }
   ],
   "packageName": "@uifabric/fabric-website-resources",
